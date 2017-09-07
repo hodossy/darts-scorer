@@ -1,6 +1,5 @@
 export class Throw {
-  sector: number;
-  multiplier: number;
+  constructor(public sector: number, public multiplier: number) { }
 
   get value() {
     return this.sector * this.multiplier;

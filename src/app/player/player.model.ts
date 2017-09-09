@@ -1,4 +1,4 @@
-export class PlayerComponent {
+export class Player {
   public score: any;
 
   constructor(public name: string, private initialScore: any) {

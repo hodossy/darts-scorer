@@ -5,14 +5,20 @@ import { Player } from './player.model';
 @Injectable()
 export class PlayerService {
   private storageKey: string = 'knownPlayers';
-  private players: Player[];
+  private players: Player[] = [];
 
   constructor() {
     this.retrievePlayers();
   }
 
-  addPlayer(newPlayer: Player) {
-    this.players.push(newPlayer);
+  addPlayer(newPlayerName: string): boolean {
+    for(let idx = 0; idx < this.players.length; idx++) {
+      console.log('I am here with idx: ' + idx);
+      if(this.players[idx].name == newPlayerName)
+        return false;
+    }
+    this.players.push(new Player(newPlayerName));
+    return true;
   }
 
   getPlayers(): Promise<Player[]> {

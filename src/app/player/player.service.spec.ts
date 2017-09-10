@@ -28,16 +28,21 @@ describe('PlayerService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should add Player', () => {
-    service.addPlayer(newPlayer);
+  it('should add a new Player', () => {
+    service.addPlayer(newPlayer.name);
     service.getPlayers().then((players) => {
       expect(players.length).toBe(1);
       expect(players[0]).toEqual(newPlayer);
     });
   });
 
+  it('should not add a player with the same name', () => {
+    service.addPlayer(newPlayer.name);
+    expect(service.addPlayer(newPlayer.name)).toBeFalsy();
+  });
+
   it('should store players', fakeAsync(() =>{
-    service.addPlayer(newPlayer);
+    service.addPlayer(newPlayer.name);
     service.storePlayers()
     let storedPlayers: Player[];
     service.getPlayers().then((players) => { storedPlayers = players; });

@@ -1,15 +1,21 @@
 import { TestBed, async } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { DartsTableComponent } from './darts-table/darts-table.component';
+import { PlayerExtendableListComponent } from './player-extendable-list/player-extendable-list.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        DartsTableComponent
+        DartsTableComponent,
+        PlayerExtendableListComponent
       ],
+      imports: [
+        FormsModule
+      ]
     }).compileComponents();
   }));
 

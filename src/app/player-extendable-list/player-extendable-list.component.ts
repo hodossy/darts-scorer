@@ -20,9 +20,9 @@ export class PlayerExtendableListComponent implements OnInit {
   }
 
   addPlayer() {
+    if(!this.newPlayerName || '' == this.newPlayerName ) return;
     for(let idx = 0; idx < this.players.length; idx++) {
       if(this.newPlayerName == this.players[idx].name) {
-        this.newPlayerName = null;
         this.hasError = true;
         return;
       }

@@ -4,12 +4,12 @@
   </li>
 </ul>
 <div class="input-group">
-    <input type="text" class="form-control" [(ngModel)]="newPlayerName"
-        (keyup.enter)="addPlayer()" placeholder="Add players here...">
-    <span class="input-group-btn">
-      <button class="btn btn-default" type="button" (click)="addPlayer()">Add</button>
-    </span>
+  <input type="text" class="form-control" [(ngModel)]="newPlayerName"
+    (keyup.enter)="addPlayer()" placeholder="Add players here...">
+  <span class="input-group-btn">
+    <button class="btn btn-default" type="button" (click)="addPlayer()">Add</button>
+  </span>
 </div>
 <div *ngIf="hasError" class="alert alert-danger" role="alert">
-  <span>{{newPlayerName}} already added!</span>
+  <span id="error-msg">{{newPlayerName}} already added!</span>
 </div>

@@ -3,7 +3,6 @@ export class Player {
   private initialScore: any;
 
   constructor(public name: string) {
-    this.resetScore();
   }
 
   setInitialScore(initialScore: any) {

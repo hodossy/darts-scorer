@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { DartsTableComponent } from './darts-table/darts-table.component';
 import { PlayerService } from './player/player.service';
 import { PlayerExtendableListComponent } from './player-extendable-list/player-extendable-list.component';
+import { GameComponent } from './game/game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DartsTableComponent,
-    PlayerExtendableListComponent
+    PlayerExtendableListComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,

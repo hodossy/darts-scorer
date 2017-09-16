@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 import { By } from '@angular/platform-browser';
 
 import { DartsTableComponent } from './darts-table.component';
-import { Throw } from './throw.model';
+import { Throw } from '../core/throw.model';
 
 describe('DartsTableComponent', () => {
   let component: DartsTableComponent;

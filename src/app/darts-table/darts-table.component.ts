@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 
-import { Throw } from './throw.model';
+import { Throw } from '../core/throw.model';
 
 @Component({
   selector: 'darts-table',

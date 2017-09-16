@@ -5,36 +5,35 @@ import { Player } from './player.model';
 @Injectable()
 export class PlayerService {
   private storageKey: string = 'knownPlayers';
-  private players: Player[] = [];
+  private cachedPlayers: Player[] = [];
 
   constructor() {
     this.retrievePlayers();
   }
 
-  addPlayer(newPlayerName: string): boolean {
-    for(let idx = 0; idx < this.players.length; idx++) {
-      console.log('I am here with idx: ' + idx);
-      if(this.players[idx].name == newPlayerName)
-        return false;
-    }
-    this.players.push(new Player(newPlayerName));
-    return true;
+  get players(): Player[] {
+    return this.players || new Array<Player>();
   }
 
-  getPlayers(): Promise<Player[]> {
-    return Promise.resolve(this.players);
+  set players(players: Player[]) {
+    this.players = players;
+  }
+
+  getCachedPlayers(): Player[] {
+    return this.cachedPlayers;
   }
 
   storePlayers() {
+    // TODO: update existing keys and add new one before storing
     localStorage.setItem(this.storageKey, JSON.stringify(this.players));
   }
 
   retrievePlayers() {
     let retrievedObjects = JSON.parse(localStorage.getItem(this.storageKey));
     if(retrievedObjects){
-      this.players = retrievedObjects.map(obj => new Player(obj.name));
+      this.cachedPlayers = retrievedObjects.map(obj => new Player(obj.name));
     } else {
-      this.players = new Array<Player>();
+      this.cachedPlayers = new Array<Player>();
     }
   }
 }

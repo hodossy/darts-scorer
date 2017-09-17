@@ -44,7 +44,6 @@ export class PlayerService {
       }
       if (!found) this.cachedPlayers.push(this.players[i]);
     }
-    console.log('Storing players: ' + JSON.stringify(this.cachedPlayers));
     localStorage.setItem(this.storageKey, JSON.stringify(this.cachedPlayers));
   }
 

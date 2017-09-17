@@ -25,4 +25,14 @@ describe('Model: Throw', () => {
   it('should not serialize scores', () => {
     expect(JSON.stringify(p)).toEqual('{"name":"' + p.name + '"}');
   });
+
+  it('should be equal with a Player with the same name', () => {
+    let otherPlayer = new Player('John Doe');
+    expect(p.equals(otherPlayer)).toBeTruthy();
+  });
+
+  it('should not be equal with a Player with different name', () => {
+    let otherPlayer = new Player('Jane Doe');
+    expect(p.equals(otherPlayer)).toBeFalsy();
+  });
 });

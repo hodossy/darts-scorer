@@ -5,6 +5,10 @@ export class Player {
   constructor(public name: string) {
   }
 
+  equals(otherPlayer: Player) {
+    return this.name === otherPlayer.name;
+  }
+
   setInitialScore(initialScore: any) {
     this.initialScore = initialScore;
     this.score = initialScore;

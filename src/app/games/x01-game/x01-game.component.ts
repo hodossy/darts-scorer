@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Player } from '../../player/player.model';
+import { PlayerService } from '../../player/player.service';
 import { Throw } from '../../core/throw.model';
 
 @Component({
   selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+  templateUrl: './x01-game.component.html',
+  styleUrls: ['./x01-game.component.css']
 })
 export class X01GameComponent implements OnInit {
   // TODO: Common fields, move these to a generic base class
@@ -20,11 +21,11 @@ export class X01GameComponent implements OnInit {
   public initialScore: number = 501;
   public isDoubleOut: boolean = true;
 
-  constructor() { }
+  constructor(private playerService: PlayerService) { }
 
   ngOnInit() {
     // TODO: get players from service
-    this.activePlayer = this.players[0];
+    // this.activePlayer = this.players[0];
   }
 
   checkWin() {
@@ -38,6 +39,21 @@ export class X01GameComponent implements OnInit {
       this.isStarted = false;
       // TODO: handle win
     }
+    // TODO: Reset scores according to situation
+  }
+
+  handleScore(score: Throw) {
+    if (this.isDoubleOut && this.activePlayer.score.actual == score.value) {
+      if (2 == score.multiplier) {
+        this.activePlayer.score.actual -= score.value;
+      } else {
+        // TODO: reset score to starting point
+      }
+      this.throwsLeft = 0;
+    } else {
+      this.activePlayer.score.actual -= score.value;
+      this.throwsLeft--;
+    }
   }
 
   setNextPlayer() {
@@ -47,12 +63,12 @@ export class X01GameComponent implements OnInit {
   }
 
   onThrow(score: Throw) {
-    this.activePlayer.score.actual -= score.value;
-    this.throwsLeft--;
-    this.checkWin();
-    if(0 == this.throwsLeft) {
-      this.throwsLeft = 3
-      this.setNextPlayer();
+    this.handleScore(score);
+    if(!this.checkWin()) {
+      if(0 == this.throwsLeft) {
+        this.throwsLeft = 3
+        this.setNextPlayer();
+      }
     }
   }
 

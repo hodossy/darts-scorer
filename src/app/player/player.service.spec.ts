@@ -1,4 +1,4 @@
-import { fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { Player } from './player.model';
 import { PlayerService } from './player.service';
@@ -6,25 +6,29 @@ import { PlayerService } from './player.service';
 describe('PlayerService', () => {
   let service: PlayerService;
   let newPlayer: Player;
-  let store = {};
 
   beforeEach(() => {
-    service = new PlayerService();
-    newPlayer = new Player('Janet Doe');
+    var store = { 'knownPlayers': '[{ "name": "Jane Doe" },{ "name": "John Doe" }]' };
+
+    const mockLocalStorage = {
+      getItem: (key: string): string => {
+        return key in store ? store[key] : null;
+      },
+      setItem: (key: string, value: string) => {
+        store[key] = `${value}`;
+      }
+    };
+    spyOn(localStorage, 'getItem').and.callFake(mockLocalStorage.getItem);
+    spyOn(localStorage, 'setItem').and.callFake(mockLocalStorage.setItem);
   });
 
   beforeEach(() => {
-    store = {'knownPlayers': [
-      { name: 'Jane Doe' },
-      { name: 'John Doe' }
-    ]};
+    TestBed.configureTestingModule({
+      providers: [PlayerService]
+    });
 
-    spyOn(localStorage, 'getItem').and.callFake( (key:string):String => {
-     return store[key] || null;
-    });
-    spyOn(localStorage, 'setItem').and.callFake((key:string, value:string):string =>  {
-      return store[key] = <string>value;
-    });
+    service = TestBed.get(PlayerService);
+    newPlayer = new Player('Janet Doe');
   });
 
   it('should be created', () => {
@@ -58,12 +62,12 @@ describe('PlayerService', () => {
   it('should store new players', () => {
     service.players = [newPlayer];
     service.storePlayers();
-    expect(store['knownPlayers'].length).toEqual(3);
+    expect(JSON.parse(localStorage.getItem('knownPlayers')).length).toEqual(3);
   });
 
   it('should not store known players', () => {
     service.players = [newPlayer, new Player('John Doe')];
     service.storePlayers();
-    expect(store['knownPlayers'].length).toEqual(3);
+    expect(JSON.parse(localStorage.getItem('knownPlayers')).length).toEqual(3);
   });
 });

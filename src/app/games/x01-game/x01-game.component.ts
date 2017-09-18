@@ -12,54 +12,88 @@ import { Throw } from '../../core/throw.model';
 export class X01GameComponent implements OnInit {
   // TODO: Common fields, move these to a generic base class
   public players: Player[];
-  public activePlayer: Player;
+  public activePlayerIdx: number = 0;
   private throwsLeft: number = 3;
   public isStarted: boolean;
   // Game specific fields
   public legsToWin: number = 3;
-  public setsToWin: number = 1;
+  private legsPlayed: number = 0;
+  public setsToWin: number = 2;
+  private setsPlayed: number = 0;
   public initialScore: number = 501;
   public isDoubleOut: boolean = true;
+  private scoreTemplate = {
+    current: this.initialScore,
+    legs: 0,
+    sets: 0,
+  }
 
   constructor(private playerService: PlayerService) { }
 
-  ngOnInit() {
-    // TODO: get players from service
-    // this.activePlayer = this.players[0];
+  get activePlayer() {
+    // TODO: move to generic class
+    return this.players[this.activePlayerIdx];
   }
 
-  checkWin() {
-    if(0 == this.activePlayer.score.value) {
+  ngOnInit() {
+    this.players = this.playerService.players
+    this.players.map((player) => {
+      player.setInitialScore(this.scoreTemplate)
+    });
+  }
+
+  checkWin(): boolean {
+    if(0 == this.activePlayer.score.current) {
       this.activePlayer.score.legs++;
+      if(this.legsToWin == this.activePlayer.score.legs) {
+        this.activePlayer.score.sets++;
+        if(this.setsToWin == this.activePlayer.score.sets) {
+          this.isStarted = false;
+          // TODO: handle win
+          return true;
+        }
+        this.startNewSet()
+        return true;
+      }
+      this.startNewLeg();
+      return true;
     }
-    if(this.legsToWin == this.activePlayer.score.legs) {
-      this.activePlayer.score.sets++;
-    }
-    if(this.setsToWin == this.activePlayer.score.sets) {
-      this.isStarted = false;
-      // TODO: handle win
-    }
-    // TODO: Reset scores according to situation
+    return false;
   }
 
   handleScore(score: Throw) {
-    if (this.isDoubleOut && this.activePlayer.score.actual == score.value) {
+    if (this.isDoubleOut && this.activePlayer.score.current == score.value) {
       if (2 == score.multiplier) {
-        this.activePlayer.score.actual -= score.value;
+        this.activePlayer.score.current -= score.value;
       } else {
         // TODO: reset score to starting point
       }
       this.throwsLeft = 0;
     } else {
-      this.activePlayer.score.actual -= score.value;
+      this.activePlayer.score.current -= score.value;
       this.throwsLeft--;
     }
   }
 
   setNextPlayer() {
-    // TODO: move this to a generic base class
-    this.players.unshift(this.players.pop());
-    this.activePlayer = this.players[0];
+    this.activePlayerIdx = ++this.activePlayerIdx % this.players.length;
+  }
+
+  startNewLeg() {
+    this.players.map((player) => {
+      player.score.current = this.initialScore;
+    });
+    this.activePlayerIdx = (this.setsPlayed + ++this.legsPlayed) % this.players.length;
+  }
+
+  startNewSet() {
+    this.players.map((player) => {
+      player.score.current = this.initialScore;
+      player.score.legs = 0;
+    });
+    this.legsPlayed = 0
+    this.setsPlayed++;
+    this.activePlayerIdx = this.setsPlayed % this.players.length;
   }
 
   onThrow(score: Throw) {

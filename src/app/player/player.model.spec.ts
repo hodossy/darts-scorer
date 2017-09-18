@@ -1,6 +1,6 @@
 import { Player } from './player.model';
 
-describe('Model: Throw', () => {
+describe('Model: Player', () => {
   let p: Player;
 
   beforeEach(() => {

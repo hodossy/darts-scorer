@@ -22,6 +22,7 @@ export class X01GameComponent implements OnInit {
   private setsPlayed: number = 0;
   public initialScore: number = 501;
   public isDoubleOut: boolean = true;
+  private roundScore = 0;
   private scoreTemplate = {
     current: this.initialScore,
     legs: 0,
@@ -62,16 +63,12 @@ export class X01GameComponent implements OnInit {
   }
 
   handleScore(score: Throw) {
-    if (this.isDoubleOut && this.activePlayer.score.current == score.value) {
-      if (2 == score.multiplier) {
-        this.activePlayer.score.current -= score.value;
-      } else {
-        // TODO: reset score to starting point
-      }
+    this.roundScore += score.value;
+    this.activePlayer.score.current -= score.value;
+    if (this.activePlayer.score.current === 0 && this.isDoubleOut && 2 != score.multiplier
+      || this.activePlayer.score.current < 0) {
+      this.activePlayer.score.current += this.roundScore;
       this.throwsLeft = 0;
-    } else {
-      this.activePlayer.score.current -= score.value;
-      this.throwsLeft--;
     }
   }
 
@@ -97,10 +94,12 @@ export class X01GameComponent implements OnInit {
   }
 
   onThrow(score: Throw) {
+    this.throwsLeft--;
     this.handleScore(score);
     if(!this.checkWin()) {
       if(0 == this.throwsLeft) {
-        this.throwsLeft = 3
+        this.throwsLeft = 3;
+        this.roundScore = 0;
         this.setNextPlayer();
       }
     }

@@ -151,16 +151,70 @@ describe('GameComponent', () => {
     });
   });
 
-  it('should select next player on throws', () => {
-    let activeIdx = 0;
-    for(let i = 1; i <= component.players.length * 6; i++) {
-      component.onThrow(new Throw(1, 3));
-      if (i % 3 === 0) {
-        activeIdx = (i / 3) % component.players.length;
-        console.log("Expected active index after " + i + " iterations: " + activeIdx)
-        expect(component.activePlayer).toBe(component.players[activeIdx],
-          "Failed after " + i + " iterations!")
+  describe("handleScore()", () => {
+    it("should substract throw value", () => {
+      component.handleScore(new Throw(20, 3));
+      expect(component.activePlayer.score.current).toEqual(441);
+    });
+
+    it("should allow double out", () => {
+      component.activePlayer.score.current = 100;
+      component.handleScore(new Throw(20, 3));
+      component.handleScore(new Throw(20, 2));
+      expect(component.activePlayer.score.current).toEqual(0);
+    });
+
+    it("should not allow single out and reset score", () => {
+      component.activePlayer.score.current = 18;
+      component.handleScore(new Throw(18, 1));
+      expect(component.activePlayer.score.current).toEqual(18);
+    });
+
+    it("should not allow triple out and reset score", () => {
+      component.activePlayer.score.current = 72;
+      component.handleScore(new Throw(18, 2));
+      component.handleScore(new Throw(18, 1));
+      component.handleScore(new Throw(6, 3));
+      expect(component.activePlayer.score.current).toEqual(72);
+    });
+
+    it("should allow single out when double out is not required", () => {
+      component.isDoubleOut = false;
+      component.activePlayer.score.current = 18;
+      component.handleScore(new Throw(18, 1));
+      expect(component.activePlayer.score.current).toEqual(0);
+    });
+
+    it("should allow triple out when double out is not required", () => {
+      component.isDoubleOut = false;
+      component.activePlayer.score.current = 18;
+      component.handleScore(new Throw(2, 3));
+      component.handleScore(new Throw(2, 3));
+      component.handleScore(new Throw(2, 3));
+      expect(component.activePlayer.score.current).toEqual(0);
+    });
+
+    it("should handle overthrows", () => {
+      component.activePlayer.score.current = 170;
+      component.handleScore(new Throw(20, 3));
+      component.handleScore(new Throw(20, 3));
+      component.handleScore(new Throw(20, 3));
+      expect(component.activePlayer.score.current).toEqual(170);
+    });
+  });
+
+  describe("onThrow()", () => {
+    it('should select next player after 3 throws', () => {
+      let activeIdx = 0;
+      for(let i = 1; i <= component.players.length * 6; i++) {
+        component.onThrow(new Throw(1, 3));
+        if (i % 3 === 0) {
+          activeIdx = (i / 3) % component.players.length;
+          console.log("Expected active index after " + i + " iterations: " + activeIdx)
+          expect(component.activePlayer).toBe(component.players[activeIdx],
+            "Failed after " + i + " iterations!")
+        }
       }
-    }
+    });
   });
 });

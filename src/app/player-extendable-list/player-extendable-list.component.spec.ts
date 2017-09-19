@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 import { FormsModule } from '@angular/forms';
 
 import { PlayerExtendableListComponent } from './player-extendable-list.component';
+import { PlayerService } from '../player/player.service';
 
 describe('PlayerExtendableListComponent', () => {
   let component: PlayerExtendableListComponent;
@@ -10,7 +11,8 @@ describe('PlayerExtendableListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ PlayerExtendableListComponent ],
-      imports: [ FormsModule ]
+      imports: [ FormsModule ],
+      providers: [ PlayerService ]
     })
     .compileComponents();
   }));

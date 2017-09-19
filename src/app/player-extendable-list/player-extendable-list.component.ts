@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { Player } from '../player/player.model';
+import { PlayerService } from '../player/player.service';
 
 @Component({
   selector: 'player-extendable-list',
@@ -12,10 +13,10 @@ export class PlayerExtendableListComponent implements OnInit {
   hasError: boolean;
   @Input() newPlayerName: string;
 
-  constructor() { }
+  constructor(private playerService: PlayerService) { }
 
   ngOnInit() {
-    this.players = [];
+    this.players = this.playerService.players;
     this.newPlayerName = null;
   }
 
@@ -27,12 +28,14 @@ export class PlayerExtendableListComponent implements OnInit {
         return;
       }
     }
-    this.players.push(new Player(this.newPlayerName));
+    // this.players.push(new Player(this.newPlayerName));
+    this.playerService.addPlayer(new Player(this.newPlayerName));
     this.newPlayerName = null;
     this.hasError = false;
   }
 
   removePlayer(idx: number) {
-    this.players.splice(idx, 1);
+    // this.players.splice(idx, 1);
+    this.playerService.deletePlayer(idx);
   }
 }

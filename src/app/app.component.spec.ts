@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { DartsTableComponent } from './darts-table/darts-table.component';
 import { PlayerExtendableListComponent } from './player-extendable-list/player-extendable-list.component';
+import { PlayerService } from './player/player.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -15,7 +16,8 @@ describe('AppComponent', () => {
       ],
       imports: [
         FormsModule
-      ]
+      ],
+      providers: [ PlayerService ]
     }).compileComponents();
   }));
 

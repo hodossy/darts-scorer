@@ -210,11 +210,33 @@ describe('GameComponent', () => {
         component.onThrow(new Throw(1, 3));
         if (i % 3 === 0) {
           activeIdx = (i / 3) % component.players.length;
-          console.log("Expected active index after " + i + " iterations: " + activeIdx)
           expect(component.activePlayer).toBe(component.players[activeIdx],
             "Failed after " + i + " iterations!")
         }
       }
+    });
+
+    it('should handle overthrows', () => {
+      component.activePlayer.score.current = 100;
+      component.onThrow(new Throw(20, 3));
+      component.onThrow(new Throw(20, 3));
+      expect(component.activePlayerIdx).toEqual(1);
+      expect(component.players[0].score.current).toEqual(100);
+
+      component.activePlayer.score.current = 100;
+      component.onThrow(new Throw(20, 3));
+      component.onThrow(new Throw(20, 3));
+      expect(component.activePlayerIdx).toEqual(2);
+      expect(component.players[0].score.current).toEqual(100);
+    });
+
+    it('should notice leg wins', () => {
+      component.activePlayer.score.current = 100;
+      component.onThrow(new Throw(20, 3));
+      component.onThrow(new Throw(20, 2));
+      expect(component.activePlayerIdx).toEqual(1);
+      expect(component.players[0].score.current).toEqual(501);
+      expect(component.players[0].score.legs).toEqual(1);
     });
   });
 });

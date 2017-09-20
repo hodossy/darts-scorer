@@ -1,3 +1,20 @@
-<p>
-  game works!
-</p>
+<div *ngIf="isStarted" class="row">
+    <div class="col-md-4">
+        Here goes the score summary
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-6 center-block">
+        <darts-table></darts-table>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<div *ngIf="!isStarted" class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+        <player-extendable-list></player-extendable-list>
+    </div>
+    <div class="col-md-5">
+        here goes the settings
+    </div>
+    <div class="col-md-1"></div>
+</div>

@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { DartsTableComponent } from './darts-table/darts-table.component';
 import { PlayerExtendableListComponent } from './player-extendable-list/player-extendable-list.component';
 import { PlayerService } from './player/player.service';
+import { X01GameComponent } from './games/x01-game/x01-game.component'
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -12,7 +13,8 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         DartsTableComponent,
-        PlayerExtendableListComponent
+        PlayerExtendableListComponent,
+        X01GameComponent
       ],
       imports: [
         FormsModule

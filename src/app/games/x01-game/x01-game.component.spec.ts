@@ -1,18 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { X01GameComponent } from './x01-game.component';
+import { DartsTableComponent } from '../../darts-table/darts-table.component';
 import { Player } from '../../player/player.model';
 import { PlayerService } from '../../player/player.service';
+import { PlayerExtendableListComponent } from '../../player-extendable-list/player-extendable-list.component';
 import { Throw } from '../../core/throw.model';
 
-describe('GameComponent', () => {
+describe('X01GameComponent', () => {
   let component: X01GameComponent;
   let fixture: ComponentFixture<X01GameComponent>;
   let service: PlayerService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ X01GameComponent ],
+      declarations: [
+        X01GameComponent,
+        DartsTableComponent,
+        PlayerExtendableListComponent
+      ],
       providers: [ PlayerService ]
     })
     .compileComponents();

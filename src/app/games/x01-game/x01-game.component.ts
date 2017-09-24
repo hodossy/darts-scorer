@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MdInputModule } from '@angular/material';
 
 import { Player } from '../../player/player.model';
 import { PlayerService } from '../../player/player.service';
 import { Throw } from '../../core/throw.model';
 
 @Component({
-  selector: 'app-game',
+  selector: 'game-x01',
   templateUrl: './x01-game.component.html',
   styleUrls: ['./x01-game.component.css']
 })
@@ -16,18 +18,25 @@ export class X01GameComponent implements OnInit {
   private throwsLeft: number = 3;
   public isStarted: boolean;
   // Game specific fields
-  public legsToWin: number = 3;
+  @Input() legsToWin: number = 3;
   private legsPlayed: number = 0;
-  public setsToWin: number = 2;
+  @Input() setsToWin: number = 2;
   private setsPlayed: number = 0;
-  public initialScore: number = 501;
-  public isDoubleOut: boolean = true;
+  isDoubleOut: boolean = true;
+  @Input() initialScore: number = 501;
   private roundScore = 0;
   private scoreTemplate = {
     current: this.initialScore,
     legs: 0,
     sets: 0,
   }
+
+  scoreOptions = [
+    {value: 301, viewValue: '301'},
+    {value: 501, viewValue: '501'},
+    {value: 701, viewValue: '701'},
+    {value: 1001, viewValue: '1001'}
+  ];
 
   constructor(private playerService: PlayerService) { }
 

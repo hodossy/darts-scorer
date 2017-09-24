@@ -14,7 +14,20 @@
         <player-extendable-list></player-extendable-list>
     </div>
     <div class="col-md-5">
-        here goes the settings
+        <form>
+            <md-form-field>
+                <input mdInput type="number" name="legs-to-win" [(ngModel)]="legsToWin" placeholder="Number of legs to win">
+            </md-form-field>
+            <md-form-field>
+                <input mdInput type="number" name="sets-to-win" [(ngModel)]="setsToWin" placeholder="Number of sets to win">
+            </md-form-field>
+            <md-select [(ngModel)]="initialScore" placeholder="Select score" name="initial-score">
+                <md-option *ngFor="let score of scoreOptions" [value]="score.value">
+                    {{score.viewValue}}
+                </md-option>
+            </md-select>
+            <md-slide-toggle [(ngModel)]="isDoubleOut" name="is-double-out">Double required to win?</md-slide-toggle>
+        </form>
     </div>
     <div class="col-md-1"></div>
 </div>

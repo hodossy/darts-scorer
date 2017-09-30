@@ -43,6 +43,7 @@ describe('X01GameComponent', () => {
     fixture = TestBed.createComponent(X01GameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.onStart();
   });
 
   it('should be created', () => {
@@ -51,7 +52,6 @@ describe('X01GameComponent', () => {
 
   it('should initialize players', () => {
     expect(component.players.length).toEqual(4);
-    component.onStart();
     expect(component.activePlayer).toBe(component.players[0]);
   });
 
@@ -80,7 +80,6 @@ describe('X01GameComponent', () => {
     });
 
     it('should set starting player', () => {
-      component.startNewSet();
       expect(component.activePlayerIdx).toEqual(0);
       component.startNewLeg();
       expect(component.activePlayerIdx).toEqual(1);
@@ -109,7 +108,6 @@ describe('X01GameComponent', () => {
     });
 
     it('should set starting player', () => {
-      component.startNewSet();
       expect(component.activePlayerIdx).toEqual(0);
       component.startNewSet();
       expect(component.activePlayerIdx).toEqual(1);
@@ -118,7 +116,6 @@ describe('X01GameComponent', () => {
     });
 
     it('should set starting player in the second set', () => {
-      component.startNewSet();
       component.startNewLeg();
       component.startNewLeg();
       component.startNewSet();
@@ -127,10 +124,6 @@ describe('X01GameComponent', () => {
   });
 
   describe('checkWin()', () => {
-    beforeEach(() => {
-      component.startNewSet();
-    })
-
     it('should notice leg wins and reset scores', () => {
       component.activePlayer.score.current = 0;
       expect(component.checkWin()).toBeTruthy();
@@ -177,10 +170,6 @@ describe('X01GameComponent', () => {
   });
 
   describe("handleScore()", () => {
-    beforeEach(() => {
-      component.startNewSet();
-    })
-
     it("should substract throw value", () => {
       component.handleScore(new Throw(20, 3));
       expect(component.activePlayer.score.current).toEqual(441);
@@ -233,10 +222,6 @@ describe('X01GameComponent', () => {
   });
 
   describe("onThrow()", () => {
-    beforeEach(() => {
-      component.startNewSet();
-    })
-
     it('should select next player after 3 throws', () => {
       let activeIdx = 0;
       for(let i = 1; i <= component.players.length * 6; i++) {
@@ -275,7 +260,6 @@ describe('X01GameComponent', () => {
 
   describe('onStart()', () => {
     it('should set isStarted to true', () => {
-      component.onStart();
       expect(component.isStarted).toBeTruthy();
     });
 

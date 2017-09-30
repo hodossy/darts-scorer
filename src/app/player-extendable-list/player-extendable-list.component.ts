@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import { SharedModule } from '../shared/shared.module';
+
 import { Player } from '../core/player.model';
 import { PlayerService } from '../core/player.service';
 

@@ -16,7 +16,7 @@ export class X01GameComponent implements OnInit {
   public players: Player[];
   public activePlayerIdx: number = -1;
   private throwsLeft: number = 3;
-  public isStarted: boolean;
+  public isStarted: boolean = false;
   // Game specific fields
   @Input() legsToWin: number = 3;
   private legsPlayed: number = 0;
@@ -47,9 +47,6 @@ export class X01GameComponent implements OnInit {
 
   ngOnInit() {
     this.players = this.playerService.players
-    this.players.map((player) => {
-      player.setInitialScore(this.scoreTemplate)
-    });
   }
 
   checkWin(): boolean {
@@ -114,6 +111,9 @@ export class X01GameComponent implements OnInit {
   }
 
   onStart() {
+    this.players.map((player) => {
+      player.setInitialScore(this.scoreTemplate)
+    });
     this.isStarted = true;
     this.startNewSet();
   }

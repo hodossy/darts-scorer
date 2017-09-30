@@ -236,7 +236,7 @@ describe('X01GameComponent', () => {
     beforeEach(() => {
       component.startNewSet();
     })
-    
+
     it('should select next player after 3 throws', () => {
       let activeIdx = 0;
       for(let i = 1; i <= component.players.length * 6; i++) {
@@ -272,4 +272,17 @@ describe('X01GameComponent', () => {
       expect(component.players[0].score.legs).toEqual(1);
     });
   });
+
+  describe('onStart()', () => {
+    it('should set isStarted to true', () => {
+      component.onStart();
+      expect(component.isStarted).toBeTruthy();
+    });
+
+    it('should start the first set', () => {
+      let startSetSpy = spyOn(component, "startNewSet");
+      component.onStart();
+      expect(startSetSpy).toHaveBeenCalled();
+    });
+  })
 });

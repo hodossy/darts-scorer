@@ -1,10 +1,15 @@
 <div *ngIf="isStarted" class="row">
   <div class="col-md-4">
-    Here goes the score summary
+    <md-list>
+      <md-list-item *ngFor="let player of players; let idx=index" [attr.active]="idx===activeIdx">
+        <md-chip-list><md-chip>{{player.name}}</md-chip></md-chip-list>
+        <span>Sets: {{player.score.sets}} | Legs: {{player.score.legs}} | Score: {{player.score.current}}</span>
+      </md-list-item>
+    </md-list>
   </div>
   <div class="col-md-1"></div>
   <div class="col-md-6 center-block">
-    <darts-table></darts-table>
+    <darts-table (throw)="onThrow($event)"></darts-table>
   </div>
   <div class="col-md-1"></div>
 </div>

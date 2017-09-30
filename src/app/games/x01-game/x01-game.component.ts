@@ -112,7 +112,7 @@ export class X01GameComponent implements OnInit {
 
   onStart() {
     this.players.map((player) => {
-      player.setInitialScore(this.scoreTemplate)
+      player.setInitialScore(Object.assign({}, this.scoreTemplate));
     });
     this.isStarted = true;
     this.startNewSet();

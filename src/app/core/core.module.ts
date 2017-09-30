@@ -2,6 +2,7 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   MdButtonModule,
+  MdChipsModule,
   MdFormFieldModule,
   MdInputModule,
   MdListModule,
@@ -18,6 +19,7 @@ import { PlayerService } from './player.service';
   exports: [
     CommonModule,
     MdButtonModule,
+    MdChipsModule,
     MdFormFieldModule,
     MdInputModule,
     MdListModule,

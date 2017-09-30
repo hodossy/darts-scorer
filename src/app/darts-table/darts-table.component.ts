@@ -8,12 +8,11 @@ import { Throw } from '../core/throw.model';
   styleUrls: ['./darts-table.component.css']
 })
 export class DartsTableComponent {
-  @Output() throw: EventEmitter<Throw>;
+  @Output() throw: EventEmitter<Throw> = new EventEmitter<Throw>();
 
   constructor() { }
 
   ngOnInit() {
-    this.throw = new EventEmitter<Throw>();
   }
 
   onClick(event) {

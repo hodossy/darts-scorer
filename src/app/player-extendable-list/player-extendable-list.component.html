@@ -1,5 +1,5 @@
-<md-list class="list-group">
-  <md-list-item *ngFor="let player of players; let idx=index" class="list-group-item">
+<md-list>
+  <md-list-item *ngFor="let player of players; let idx=index">
     {{player.name}}<span role="button" class="glyphicon glyphicon-remove pull-right" (click)="removePlayer(idx)"></span>
 </md-list-item>
 </md-list>

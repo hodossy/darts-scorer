@@ -2,10 +2,14 @@ import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
+
+import { CoreModule } from './core/core.module';
+
 import { DartsTableComponent } from './darts-table/darts-table.component';
 import { PlayerExtendableListComponent } from './player-extendable-list/player-extendable-list.component';
-import { PlayerService } from './player/player.service';
 import { X01GameComponent } from './games/x01-game/x01-game.component'
+
+import { PlayerService } from './core/player.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -17,7 +21,8 @@ describe('AppComponent', () => {
         X01GameComponent
       ],
       imports: [
-        FormsModule
+        FormsModule,
+        CoreModule
       ],
       providers: [ PlayerService ]
     }).compileComponents();

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Player } from '../player/player.model';
-import { PlayerService } from '../player/player.service';
+import { Player } from '../core/player.model';
+import { PlayerService } from '../core/player.service';
 
 @Component({
   selector: 'player-extendable-list',

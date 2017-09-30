@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 
+import { CoreModule } from '../core/core.module';
+import { SharedModule } from '../shared/shared.module';
 import { PlayerExtendableListComponent } from './player-extendable-list.component';
-import { PlayerService } from '../player/player.service';
 
 describe('PlayerExtendableListComponent', () => {
   let component: PlayerExtendableListComponent;
@@ -11,8 +11,7 @@ describe('PlayerExtendableListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ PlayerExtendableListComponent ],
-      imports: [ FormsModule ],
-      providers: [ PlayerService ]
+      imports: [ CoreModule, SharedModule ],
     })
     .compileComponents();
   }));

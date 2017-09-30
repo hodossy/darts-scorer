@@ -1,8 +1,8 @@
-<ul class="list-group">
-  <li *ngFor="let player of players; let idx=index" class="list-group-item">
+<md-list class="list-group">
+  <md-list-item *ngFor="let player of players; let idx=index" class="list-group-item">
     {{player.name}}<span role="button" class="glyphicon glyphicon-remove pull-right" (click)="removePlayer(idx)"></span>
-  </li>
-</ul>
+</md-list-item>
+</md-list>
 <div class="input-group">
   <input type="text" class="form-control" [(ngModel)]="newPlayerName"
     (keyup.enter)="addPlayer()" placeholder="Add players here...">

@@ -1,10 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { CoreModule } from '../../core/core.module';
+import { SharedModule } from '../../shared/shared.module';
 
 import { X01GameComponent } from './x01-game.component';
+
 import { DartsTableComponent } from '../../darts-table/darts-table.component';
-import { Player } from '../../player/player.model';
-import { PlayerService } from '../../player/player.service';
 import { PlayerExtendableListComponent } from '../../player-extendable-list/player-extendable-list.component';
+
+import { Player } from '../../core/player.model';
+import { PlayerService } from '../../core/player.service';
 import { Throw } from '../../core/throw.model';
 
 describe('X01GameComponent', () => {
@@ -19,7 +25,10 @@ describe('X01GameComponent', () => {
         DartsTableComponent,
         PlayerExtendableListComponent
       ],
-      providers: [ PlayerService ]
+      imports: [
+        BrowserAnimationsModule,
+        CoreModule,
+        SharedModule ]
     })
     .compileComponents();
     TestBed.get(PlayerService).players = [
@@ -42,6 +51,7 @@ describe('X01GameComponent', () => {
 
   it('should initialize players', () => {
     expect(component.players.length).toEqual(4);
+    component.onStart();
     expect(component.activePlayer).toBe(component.players[0]);
   });
 
@@ -53,7 +63,7 @@ describe('X01GameComponent', () => {
 
   it('should set next player', () => {
     for(let i = 1; i < component.players.length * 2; i++) {
-      component.setNextPlayer();
+      component.setNextPlayer(i);
       expect(component.activePlayer).toBe(component.players[i % component.players.length]);
       expect(component.activePlayerIdx).toEqual(i % component.players.length);
     }
@@ -69,16 +79,19 @@ describe('X01GameComponent', () => {
       });
     });
 
-    it('should set starting player in the first set', () => {
+    it('should set starting player', () => {
+      component.startNewSet();
+      expect(component.activePlayerIdx).toEqual(0);
       component.startNewLeg();
       expect(component.activePlayerIdx).toEqual(1);
-    });
-
-    it('should set starting player in the second set', () => {
+      component.startNewLeg();
+      expect(component.activePlayerIdx).toEqual(2);
       component.startNewSet();
       expect(component.activePlayerIdx).toEqual(1);
       component.startNewLeg();
       expect(component.activePlayerIdx).toEqual(2);
+      component.startNewLeg();
+      expect(component.activePlayerIdx).toEqual(3);
     });
   })
 
@@ -97,13 +110,15 @@ describe('X01GameComponent', () => {
 
     it('should set starting player', () => {
       component.startNewSet();
+      expect(component.activePlayerIdx).toEqual(0);
+      component.startNewSet();
       expect(component.activePlayerIdx).toEqual(1);
       component.startNewSet();
       expect(component.activePlayerIdx).toEqual(2);
     });
 
     it('should set starting player in the second set', () => {
-      component.startNewLeg();
+      component.startNewSet();
       component.startNewLeg();
       component.startNewLeg();
       component.startNewSet();
@@ -112,6 +127,10 @@ describe('X01GameComponent', () => {
   });
 
   describe('checkWin()', () => {
+    beforeEach(() => {
+      component.startNewSet();
+    })
+
     it('should notice leg wins and reset scores', () => {
       component.activePlayer.score.current = 0;
       expect(component.checkWin()).toBeTruthy();
@@ -158,6 +177,10 @@ describe('X01GameComponent', () => {
   });
 
   describe("handleScore()", () => {
+    beforeEach(() => {
+      component.startNewSet();
+    })
+
     it("should substract throw value", () => {
       component.handleScore(new Throw(20, 3));
       expect(component.activePlayer.score.current).toEqual(441);
@@ -210,6 +233,10 @@ describe('X01GameComponent', () => {
   });
 
   describe("onThrow()", () => {
+    beforeEach(() => {
+      component.startNewSet();
+    })
+    
     it('should select next player after 3 throws', () => {
       let activeIdx = 0;
       for(let i = 1; i <= component.players.length * 6; i++) {

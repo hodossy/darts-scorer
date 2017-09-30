@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MdInputModule } from '@angular/material';
 
-import { Player } from '../../player/player.model';
-import { PlayerService } from '../../player/player.service';
+import { SharedModule } from '../../shared/shared.module';
+import { Player } from '../../core/player.model';
+import { PlayerService } from '../../core/player.service';
 import { Throw } from '../../core/throw.model';
 
 @Component({
@@ -14,7 +14,7 @@ import { Throw } from '../../core/throw.model';
 export class X01GameComponent implements OnInit {
   // TODO: Common fields, move these to a generic base class
   public players: Player[];
-  public activePlayerIdx: number = 0;
+  public activePlayerIdx: number = -1;
   private throwsLeft: number = 3;
   public isStarted: boolean;
   // Game specific fields
@@ -26,7 +26,7 @@ export class X01GameComponent implements OnInit {
   @Input() initialScore: number = 501;
   private roundScore = 0;
   private scoreTemplate = {
-    current: this.initialScore,
+    current: 0,
     legs: 0,
     sets: 0,
   }
@@ -81,25 +81,24 @@ export class X01GameComponent implements OnInit {
     }
   }
 
-  setNextPlayer() {
-    this.activePlayerIdx = ++this.activePlayerIdx % this.players.length;
+  setNextPlayer(nextIdx: number) {
+    this.activePlayerIdx = nextIdx % this.players.length;
   }
 
   startNewLeg() {
     this.players.map((player) => {
       player.score.current = this.initialScore;
     });
-    this.activePlayerIdx = (this.setsPlayed + ++this.legsPlayed) % this.players.length;
+    this.setNextPlayer(this.setsPlayed + ++this.legsPlayed - 2);
   }
 
   startNewSet() {
     this.players.map((player) => {
-      player.score.current = this.initialScore;
       player.score.legs = 0;
     });
-    this.legsPlayed = 0
+    this.legsPlayed = 0;
     this.setsPlayed++;
-    this.activePlayerIdx = this.setsPlayed % this.players.length;
+    this.startNewLeg();
   }
 
   onThrow(score: Throw) {
@@ -109,9 +108,14 @@ export class X01GameComponent implements OnInit {
       if(0 == this.throwsLeft) {
         this.throwsLeft = 3;
         this.roundScore = 0;
-        this.setNextPlayer();
+        this.setNextPlayer(++this.activePlayerIdx);
       }
     }
+  }
+
+  onStart() {
+    this.isStarted = true;
+    this.startNewSet();
   }
 
 }

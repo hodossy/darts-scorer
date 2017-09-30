@@ -1,10 +1,39 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  MdButtonModule,
+  MdFormFieldModule,
+  MdInputModule,
+  MdListModule,
+  MdSelectModule,
+  MdSlideToggleModule,
+  MdTabsModule
+} from '@angular/material';
+
+import { PlayerService } from './player.service';
 
 @NgModule({
-  imports: [
-    CommonModule
+  imports: [],
+  declarations: [],
+  exports: [
+    CommonModule,
+    MdButtonModule,
+    MdFormFieldModule,
+    MdInputModule,
+    MdListModule,
+    MdSelectModule,
+    MdSlideToggleModule,
+    MdTabsModule
   ],
-  declarations: []
+  providers: [ PlayerService ]
 })
-export class CoreModule { }
+export class CoreModule {
+
+  constructor (@Optional() @SkipSelf() parentModule: CoreModule) {
+    if (parentModule) {
+      throw new Error(
+        'CoreModule is already loaded. Import it in the AppModule only');
+    }
+  }
+
+}

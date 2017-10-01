@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CricketScoreComponent } from './cricket-score.component';
+import { CricketScore } from './cricket-score.model';
 
 describe('CricketScoreComponent', () => {
   let component: CricketScoreComponent;
@@ -16,6 +17,7 @@ describe('CricketScoreComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CricketScoreComponent);
     component = fixture.componentInstance;
+    component.score = new CricketScore();
     fixture.detectChanges();
   });
 

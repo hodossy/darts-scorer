@@ -12,7 +12,7 @@ import { X01Settings } from './x01-settings/x01-settings.model';
 import { X01Score } from './x01-score/x01-score.model';
 
 @Component({
-  selector: 'game-x01',
+  selector: 'x01-game',
   templateUrl: './x01-game.component.html',
   styleUrls: ['./x01-game.component.css']
 })

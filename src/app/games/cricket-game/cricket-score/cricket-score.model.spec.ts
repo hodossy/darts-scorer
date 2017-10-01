@@ -1,6 +1,6 @@
 import { CricketScore } from './cricket-score.model';
 
-describe('CricketScore', () => {
+describe('Model: CricketScore', () => {
   let cs: CricketScore;
 
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe('CricketScore', () => {
     expect(cs.numbers['25']).toEqual(3);
   });
 
-  it('should add to current after 3 score', () => {
+  it('should add to current after 3 hits', () => {
     cs.setNumbers(15, 3);
     expect(cs.numbers['15']).toEqual(3);
     cs.setNumbers(15, 2);

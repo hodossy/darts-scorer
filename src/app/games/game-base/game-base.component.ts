@@ -22,7 +22,6 @@ export class GameBaseComponent implements OnInit {
   constructor(private playerService: PlayerService) { }
 
   get activePlayer() {
-    // TODO: move to generic class
     return this.players[this.activePlayerIdx];
   }
 

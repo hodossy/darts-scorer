@@ -17,17 +17,15 @@ import { CricketScore } from './cricket-score/cricket-score.model';
   styleUrls: ['./cricket-game.component.css']
 })
 export class CricketGameComponent extends GameBaseComponent {
-  private scoreTemplate: CricketScore = new CricketScore();
-
   handleScore(score: Throw) {
     this.activePlayer.score.setNumbers(score.sector, score.multiplier);
   }
 
   checkWin() {
-    let isWin = false;
+    let isWin = true;
     for (let key in this.activePlayer.score.numbers) {
       if (this.activePlayer.score.numbers.hasOwnProperty(key)) {
-        if(this.activePlayer.score.numbers[key] !== 3) isWin = true;
+        if(this.activePlayer.score.numbers[key] !== 3) isWin = false;
       }
     }
     return isWin;
@@ -35,7 +33,8 @@ export class CricketGameComponent extends GameBaseComponent {
 
   handleStart() {
     this.players.map((player) => {
-      player.setInitialScore(Object.assign({}, this.scoreTemplate));
+      player.setInitialScore(new CricketScore());
     });
+    this.activePlayerIdx = 0;
   }
 }

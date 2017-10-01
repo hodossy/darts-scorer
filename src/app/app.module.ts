@@ -13,6 +13,8 @@ import { X01GameComponent } from './games/x01-game/x01-game.component';
 import { GameBaseComponent } from './games/game-base/game-base.component';
 import { X01ScoreComponent } from './games/x01-game/x01-score/x01-score.component';
 import { X01SettingsComponent } from './games/x01-game/x01-settings/x01-settings.component';
+import { CricketGameComponent } from './games/cricket-game/cricket-game.component';
+import { CricketScoreComponent } from './games/cricket-game/cricket-score/cricket-score.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { X01SettingsComponent } from './games/x01-game/x01-settings/x01-settings
     GameBaseComponent,
     X01GameComponent,
     X01ScoreComponent,
-    X01SettingsComponent
+    X01SettingsComponent,
+    CricketGameComponent,
+    CricketScoreComponent
   ],
   imports: [
     BrowserModule,

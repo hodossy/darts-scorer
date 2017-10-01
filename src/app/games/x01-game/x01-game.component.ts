@@ -50,6 +50,9 @@ export class X01GameComponent extends GameBaseComponent {
       this.activePlayer.score.current += this.roundScore;
       this.throwsLeft = 0;
     }
+    if (this.throwsLeft === 0) {
+      this.roundScore = 0;
+    }
   }
 
   startNewLeg() {

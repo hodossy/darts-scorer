@@ -5,7 +5,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { X01Settings } from './x01-settings.model';
 
 @Component({
-  selector: 'app-x01-settings',
+  selector: 'x01-settings',
   templateUrl: './x01-settings.component.html',
   styleUrls: ['./x01-settings.component.css']
 })

@@ -3,7 +3,7 @@
     <md-list>
       <md-list-item *ngFor="let player of players; let idx=index" [attr.active]="idx===activeIdx">
         <md-chip-list><md-chip>{{player.name}}</md-chip></md-chip-list>
-        <span>Sets: {{player.score.sets}} | Legs: {{player.score.legs}} | Score: {{player.score.current}}</span>
+        <x01-score [score]="player.score"></x01-score>
       </md-list-item>
     </md-list>
   </div>
@@ -21,23 +21,7 @@
         <player-extendable-list></player-extendable-list>
       </md-tab>
       <md-tab *ngIf="settings" label="Set game parameters">
-        <form>
-          <md-slide-toggle [(ngModel)]="isDoubleOut" name="is-double-out"
-            class="full-width" style="padding 1em">
-            Double required to win?
-          </md-slide-toggle>
-          <md-select [(ngModel)]="initialScore" placeholder="Select score" name="initial-score" class="full-width">
-            <md-option *ngFor="let score of scoreOptions" [value]="score.value">
-              {{score.viewValue}}
-            </md-option>
-          </md-select>
-          <md-form-field class="full-width">
-            <input mdInput type="number" name="legs-to-win" [(ngModel)]="legsToWin" placeholder="Number of legs to win">
-          </md-form-field>
-          <md-form-field class="full-width">
-            <input mdInput type="number" name="sets-to-win" [(ngModel)]="setsToWin" placeholder="Number of sets to win">
-          </md-form-field>
-        </form>
+        <x01-settings [settings]="settings"></x01-settings>
       </md-tab>
     </md-tab-group>
     <button md-raised-button type="button" color="primary" (click)="onStart()">Start</button>

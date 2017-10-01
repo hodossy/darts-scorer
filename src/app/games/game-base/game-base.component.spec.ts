@@ -43,13 +43,6 @@ describe('GameBaseComponent', () => {
     fixture = TestBed.createComponent(GameBaseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.onStart();
-  });
-
-  beforeEach(() => {
-    component.checkWin = () => { return false; }
-    component.handleScore = (score: Throw) => {}
-    component.handleStart = () => {}
   });
 
   it('should be created', () => {
@@ -69,16 +62,20 @@ describe('GameBaseComponent', () => {
   });
 
   describe("onThrow()", () => {
+    beforeEach(() => {
+      spyOn(component, "checkWin").and.callFake(() => { return false; });
+      spyOn(component, "handleScore").and.callFake((score: Throw) => {});
+    });
+
     it('should call handleScore and checkWin', () => {
-      let handleScoreSpy = spyOn(component, "handleScore");
-      let checkWinSpy = spyOn(component, "checkWin");
       component.onThrow(new Throw(1, 3));
-      expect(handleScoreSpy).toHaveBeenCalled();
-      expect(checkWinSpy).toHaveBeenCalled();
+      expect(component.checkWin).toHaveBeenCalled();
+      expect(component.handleScore).toHaveBeenCalled();
     });
 
     it('should select next player after 3 throws', () => {
       let activeIdx = 0;
+      component.activePlayerIdx = 0;
       for(let i = 1; i <= component.players.length * 6; i++) {
         component.onThrow(new Throw(1, 3));
         if (i % 3 === 0) {
@@ -91,14 +88,18 @@ describe('GameBaseComponent', () => {
   });
 
   describe('onStart()', () => {
+    beforeEach(() => {
+      spyOn(component, "handleStart").and.callFake(() => {});
+    });
+
     it('should set isStarted to true', () => {
+      component.onStart();
       expect(component.isStarted).toBeTruthy();
     });
 
     it('should call handleStart', () => {
-      let handleStartSpy = spyOn(component, "handleStart");
       component.onStart();
-      expect(handleStartSpy).toHaveBeenCalled();
+      expect(component.handleStart).toHaveBeenCalled();
     });
   })
 });

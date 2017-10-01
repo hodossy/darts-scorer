@@ -5,6 +5,8 @@ import { CoreModule } from '../../core/core.module';
 import { SharedModule } from '../../shared/shared.module';
 
 import { X01GameComponent } from './x01-game.component';
+import { X01ScoreComponent } from './x01-score/x01-score.component';
+import { X01SettingsComponent } from './x01-settings/x01-settings.component';
 
 import { DartsTableComponent } from '../../darts-table/darts-table.component';
 import { PlayerExtendableListComponent } from '../../player-extendable-list/player-extendable-list.component';
@@ -22,6 +24,8 @@ describe('X01GameComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         X01GameComponent,
+        X01ScoreComponent,
+        X01SettingsComponent,
         DartsTableComponent,
         PlayerExtendableListComponent
       ],
@@ -50,24 +54,19 @@ describe('X01GameComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize players', () => {
-    expect(component.players.length).toEqual(4);
-    expect(component.activePlayer).toBe(component.players[0]);
-  });
-
-  it('should define score', () => {
-    component.players.map((player) => {
-      expect(player.score).toBeDefined();
+  describe('handleStart()', () => {
+    it('should define score', () => {
+      component.players.map((player) => {
+        expect(player.score).toBeDefined();
+      });
     });
-  });
 
-  it('should set next player', () => {
-    for(let i = 1; i < component.players.length * 2; i++) {
-      component.setNextPlayer(i);
-      expect(component.activePlayer).toBe(component.players[i % component.players.length]);
-      expect(component.activePlayerIdx).toEqual(i % component.players.length);
-    }
-  });
+    it('should start the first set', () => {
+      spyOn(component, "startNewSet");
+      component.handleStart();
+      expect(component.startNewSet).toHaveBeenCalled();
+    });
+  })
 
   describe('startNewLeg()', () => {
     it('should reset current scores', () => {
@@ -75,7 +74,7 @@ describe('X01GameComponent', () => {
       component.players[1].score.current = 51;
       component.startNewLeg();
       component.players.map((player) => {
-        expect(player.score.current).toEqual(component.initialScore);
+        expect(player.score.current).toEqual(component.settings.initialScore);
       });
     });
 
@@ -102,7 +101,7 @@ describe('X01GameComponent', () => {
       component.players[1].score.legs = 2;
       component.startNewSet();
       component.players.map((player) => {
-        expect(player.score.current).toEqual(component.initialScore);
+        expect(player.score.current).toEqual(component.settings.initialScore);
         expect(player.score.legs).toEqual(0);
       });
     });
@@ -128,9 +127,9 @@ describe('X01GameComponent', () => {
       component.activePlayer.score.current = 0;
       expect(component.checkWin()).toBeTruthy();
       component.players.map((player) => {
-        expect(player.score.current).toEqual(component.initialScore);
+        expect(player.score.current).toEqual(component.settings.initialScore);
       });
-      expect(component.players[1].score.legs).toEqual(1);
+      expect(component.players[0].score.legs).toEqual(1);
     });
 
     it('should set starting player for the new leg', () => {
@@ -140,13 +139,13 @@ describe('X01GameComponent', () => {
     });
 
     it('should notice set wins and reset scores and legs', () => {
-      component.players[1].score.legs = component.legsToWin - 1;
+      component.players[1].score.legs = component.settings.legsToWin - 1;
       component.players[1].score.current = 2;
-      component.activePlayer.score.legs = component.legsToWin - 1;
+      component.activePlayer.score.legs = component.settings.legsToWin - 1;
       component.activePlayer.score.current = 0;
       expect(component.checkWin()).toBeTruthy();
       component.players.map((player) => {
-        expect(player.score.current).toEqual(component.initialScore,
+        expect(player.score.current).toEqual(component.settings.initialScore,
           "Scores does not match for " + JSON.stringify(player));
         expect(player.score.legs).toEqual(0,
           "Legs does not match for " + JSON.stringify(player));
@@ -155,7 +154,7 @@ describe('X01GameComponent', () => {
     });
 
     it('should set starting player for the new set', () => {
-      component.activePlayer.score.legs = component.legsToWin - 1;
+      component.activePlayer.score.legs = component.settings.legsToWin - 1;
       component.activePlayer.score.current = 0;
       component.checkWin()
       expect(component.activePlayer.equals(new Player('John Doe'))).toBeTruthy();
@@ -163,8 +162,8 @@ describe('X01GameComponent', () => {
 
     it('should notice a win', () => {
       component.activePlayer.score.current = 0;
-      component.activePlayer.score.legs = component.legsToWin - 1;
-      component.activePlayer.score.sets = component.setsToWin - 1;
+      component.activePlayer.score.legs = component.settings.legsToWin - 1;
+      component.activePlayer.score.sets = component.settings.setsToWin - 1;
       expect(component.checkWin()).toBeTruthy();
     });
   });
@@ -185,6 +184,7 @@ describe('X01GameComponent', () => {
     it("should not allow single out and reset score", () => {
       component.activePlayer.score.current = 18;
       component.handleScore(new Throw(18, 1));
+      expect(component.throwsLeft).toEqual(0);
       expect(component.activePlayer.score.current).toEqual(18);
     });
 
@@ -197,14 +197,14 @@ describe('X01GameComponent', () => {
     });
 
     it("should allow single out when double out is not required", () => {
-      component.isDoubleOut = false;
+      component.settings.isDoubleOut = false;
       component.activePlayer.score.current = 18;
       component.handleScore(new Throw(18, 1));
       expect(component.activePlayer.score.current).toEqual(0);
     });
 
     it("should allow triple out when double out is not required", () => {
-      component.isDoubleOut = false;
+      component.settings.isDoubleOut = false;
       component.activePlayer.score.current = 18;
       component.handleScore(new Throw(2, 3));
       component.handleScore(new Throw(2, 3));
@@ -217,56 +217,8 @@ describe('X01GameComponent', () => {
       component.handleScore(new Throw(20, 3));
       component.handleScore(new Throw(20, 3));
       component.handleScore(new Throw(20, 3));
+      expect(component.throwsLeft).toEqual(0);
       expect(component.activePlayer.score.current).toEqual(170);
     });
   });
-
-  describe("onThrow()", () => {
-    it('should select next player after 3 throws', () => {
-      let activeIdx = 0;
-      for(let i = 1; i <= component.players.length * 6; i++) {
-        component.onThrow(new Throw(1, 3));
-        if (i % 3 === 0) {
-          activeIdx = (i / 3) % component.players.length;
-          expect(component.activePlayer).toBe(component.players[activeIdx],
-            "Failed after " + i + " iterations!")
-        }
-      }
-    });
-
-    it('should handle overthrows', () => {
-      component.activePlayer.score.current = 100;
-      component.onThrow(new Throw(20, 3));
-      component.onThrow(new Throw(20, 3));
-      expect(component.activePlayerIdx).toEqual(1);
-      expect(component.players[0].score.current).toEqual(100);
-
-      component.activePlayer.score.current = 100;
-      component.onThrow(new Throw(20, 3));
-      component.onThrow(new Throw(20, 3));
-      expect(component.activePlayerIdx).toEqual(2);
-      expect(component.players[0].score.current).toEqual(100);
-    });
-
-    it('should notice leg wins', () => {
-      component.activePlayer.score.current = 100;
-      component.onThrow(new Throw(20, 3));
-      component.onThrow(new Throw(20, 2));
-      expect(component.activePlayerIdx).toEqual(1);
-      expect(component.players[0].score.current).toEqual(501);
-      expect(component.players[0].score.legs).toEqual(1);
-    });
-  });
-
-  describe('onStart()', () => {
-    it('should set isStarted to true', () => {
-      expect(component.isStarted).toBeTruthy();
-    });
-
-    it('should start the first set', () => {
-      let startSetSpy = spyOn(component, "startNewSet");
-      component.onStart();
-      expect(startSetSpy).toHaveBeenCalled();
-    });
-  })
 });

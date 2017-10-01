@@ -58,7 +58,7 @@ export class GameBaseComponent implements OnInit {
   }
 
   onStart() {
-    this.isStarted = true;
     this.handleStart();
+    this.isStarted = true;
   }
 }

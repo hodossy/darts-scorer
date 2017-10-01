@@ -7,7 +7,9 @@ import { CoreModule } from './core/core.module';
 
 import { DartsTableComponent } from './darts-table/darts-table.component';
 import { PlayerExtendableListComponent } from './player-extendable-list/player-extendable-list.component';
-import { X01GameComponent } from './games/x01-game/x01-game.component'
+import { X01GameComponent } from './games/x01-game/x01-game.component';
+import { X01SettingsComponent } from './games/x01-game/x01-settings/x01-settings.component';
+import { X01ScoreComponent } from './games/x01-game/x01-score/x01-score.component';
 
 import { PlayerService } from './core/player.service';
 
@@ -18,7 +20,9 @@ describe('AppComponent', () => {
         AppComponent,
         DartsTableComponent,
         PlayerExtendableListComponent,
-        X01GameComponent
+        X01GameComponent,
+        X01SettingsComponent,
+        X01ScoreComponent,
       ],
       imports: [
         FormsModule,

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { X01ScoreComponent } from './x01-score.component';
+import { X01Score } from './x01-score.model';
 
 describe('X01ScoreComponent', () => {
   let component: X01ScoreComponent;
@@ -16,6 +17,7 @@ describe('X01ScoreComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(X01ScoreComponent);
     component = fixture.componentInstance;
+    component.score = new X01Score();
     fixture.detectChanges();
   });
 

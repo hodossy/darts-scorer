@@ -1,8 +1,8 @@
-<div class="container">
-    <nav class='navbar navbar-default'>
-        <ul class='nav navbar-nav'>
-            <li><a href="/">Home</a></li>
-        </ul>
-    </nav>
-    <cricket-game></cricket-game>
+<div>
+  <md-toolbar color="primary">
+    <span>Darts Scorer</span>
+    <a md-button href="/games/x01" routerLinkActive="active">X01</a>
+    <a md-button href="/games/cricket" routerLinkActive="active">Cricket</a>
+  </md-toolbar>
+  <router-outlet></router-outlet>
 </div>

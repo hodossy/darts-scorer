@@ -6,9 +6,11 @@ import {
   MdFormFieldModule,
   MdInputModule,
   MdListModule,
+  MdMenuModule,
   MdSelectModule,
   MdSlideToggleModule,
-  MdTabsModule
+  MdTabsModule,
+  MdToolbarModule
 } from '@angular/material';
 
 import { PlayerService } from './player.service';
@@ -23,9 +25,11 @@ import { PlayerService } from './player.service';
     MdFormFieldModule,
     MdInputModule,
     MdListModule,
+    MdMenuModule,
     MdSelectModule,
     MdSlideToggleModule,
-    MdTabsModule
+    MdTabsModule,
+    MdToolbarModule
   ],
   providers: [ PlayerService ]
 })

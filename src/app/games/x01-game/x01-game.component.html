@@ -15,30 +15,32 @@
 </div>
 <div *ngIf="!isStarted" class="row">
   <div class="col-md-2"></div>
-  <md-tab-group class="col-md-8" dynamicHeight="true">
-    <md-tab label="Add players">
-      <player-extendable-list></player-extendable-list>
-    </md-tab>
-    <md-tab label="Set game parameters">
-      <form>
-        <md-slide-toggle [(ngModel)]="isDoubleOut" name="is-double-out"
-          class="full-width" style="padding 1em">
-          Double required to win?
-        </md-slide-toggle>
-        <md-select [(ngModel)]="initialScore" placeholder="Select score" name="initial-score" class="full-width">
-          <md-option *ngFor="let score of scoreOptions" [value]="score.value">
-            {{score.viewValue}}
-          </md-option>
-        </md-select>
-        <md-form-field class="full-width">
-          <input mdInput type="number" name="legs-to-win" [(ngModel)]="legsToWin" placeholder="Number of legs to win">
-        </md-form-field>
-        <md-form-field class="full-width">
-          <input mdInput type="number" name="sets-to-win" [(ngModel)]="setsToWin" placeholder="Number of sets to win">
-        </md-form-field>
-        <button md-raised-button type="button" color="primary" (click)="onStart()">Start</button>
-      </form>
-    </md-tab>
-  </md-tab-group>
+  <div class="col-md-8">
+    <md-tab-group dynamicHeight="true">
+      <md-tab label="Add players">
+        <player-extendable-list></player-extendable-list>
+      </md-tab>
+      <md-tab *ngIf="settings" label="Set game parameters">
+        <form>
+          <md-slide-toggle [(ngModel)]="isDoubleOut" name="is-double-out"
+            class="full-width" style="padding 1em">
+            Double required to win?
+          </md-slide-toggle>
+          <md-select [(ngModel)]="initialScore" placeholder="Select score" name="initial-score" class="full-width">
+            <md-option *ngFor="let score of scoreOptions" [value]="score.value">
+              {{score.viewValue}}
+            </md-option>
+          </md-select>
+          <md-form-field class="full-width">
+            <input mdInput type="number" name="legs-to-win" [(ngModel)]="legsToWin" placeholder="Number of legs to win">
+          </md-form-field>
+          <md-form-field class="full-width">
+            <input mdInput type="number" name="sets-to-win" [(ngModel)]="setsToWin" placeholder="Number of sets to win">
+          </md-form-field>
+        </form>
+      </md-tab>
+    </md-tab-group>
+    <button md-raised-button type="button" color="primary" (click)="onStart()">Start</button>
+  </div>
   <div class="col-md-2"></div>
 </div>

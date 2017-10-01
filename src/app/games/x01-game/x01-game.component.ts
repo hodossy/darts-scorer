@@ -2,59 +2,33 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MdInputModule } from '@angular/material';
 
 import { SharedModule } from '../../shared/shared.module';
+
+import { GameBaseComponent } from '../game-base/game-base.component';
+
 import { Player } from '../../core/player.model';
 import { PlayerService } from '../../core/player.service';
 import { Throw } from '../../core/throw.model';
+import { X01Settings } from './x01-settings/x01-settings.model';
+import { X01Score } from './x01-score/x01-score.model';
 
 @Component({
   selector: 'game-x01',
   templateUrl: './x01-game.component.html',
   styleUrls: ['./x01-game.component.css']
 })
-export class X01GameComponent implements OnInit {
-  // TODO: Common fields, move these to a generic base class
-  public players: Player[];
-  public activePlayerIdx: number = -1;
-  private throwsLeft: number = 3;
-  public isStarted: boolean = false;
-  // Game specific fields
-  @Input() legsToWin: number = 3;
+export class X01GameComponent extends GameBaseComponent {
   private legsPlayed: number = 0;
-  @Input() setsToWin: number = 2;
   private setsPlayed: number = 0;
-  isDoubleOut: boolean = true;
-  @Input() initialScore: number = 501;
   private roundScore = 0;
-  private scoreTemplate = {
-    current: 0,
-    legs: 0,
-    sets: 0,
-  }
-
-  scoreOptions = [
-    {value: 301, viewValue: '301'},
-    {value: 501, viewValue: '501'},
-    {value: 701, viewValue: '701'},
-    {value: 1001, viewValue: '1001'}
-  ];
-
-  constructor(private playerService: PlayerService) { }
-
-  get activePlayer() {
-    // TODO: move to generic class
-    return this.players[this.activePlayerIdx];
-  }
-
-  ngOnInit() {
-    this.players = this.playerService.players
-  }
+  public settings: X01Settings = new X01Settings();
+  private scoreTemplate: X01Score = new X01Score();
 
   checkWin(): boolean {
     if(0 == this.activePlayer.score.current) {
       this.activePlayer.score.legs++;
-      if(this.legsToWin == this.activePlayer.score.legs) {
+      if(this.settings.legsToWin == this.activePlayer.score.legs) {
         this.activePlayer.score.sets++;
-        if(this.setsToWin == this.activePlayer.score.sets) {
+        if(this.settings.setsToWin == this.activePlayer.score.sets) {
           this.isStarted = false;
           // TODO: handle win
           return true;
@@ -71,20 +45,16 @@ export class X01GameComponent implements OnInit {
   handleScore(score: Throw) {
     this.roundScore += score.value;
     this.activePlayer.score.current -= score.value;
-    if (this.activePlayer.score.current === 0 && this.isDoubleOut && 2 != score.multiplier
+    if (this.activePlayer.score.current === 0 && this.settings.isDoubleOut && 2 != score.multiplier
       || this.activePlayer.score.current < 0) {
       this.activePlayer.score.current += this.roundScore;
       this.throwsLeft = 0;
     }
   }
 
-  setNextPlayer(nextIdx: number) {
-    this.activePlayerIdx = nextIdx % this.players.length;
-  }
-
   startNewLeg() {
     this.players.map((player) => {
-      player.score.current = this.initialScore;
+      player.score.current = this.settings.initialScore;
     });
     this.setNextPlayer(this.setsPlayed + ++this.legsPlayed - 2);
   }
@@ -98,24 +68,10 @@ export class X01GameComponent implements OnInit {
     this.startNewLeg();
   }
 
-  onThrow(score: Throw) {
-    this.throwsLeft--;
-    this.handleScore(score);
-    if(!this.checkWin()) {
-      if(0 == this.throwsLeft) {
-        this.throwsLeft = 3;
-        this.roundScore = 0;
-        this.setNextPlayer(++this.activePlayerIdx);
-      }
-    }
-  }
-
-  onStart() {
+  handleStart() {
     this.players.map((player) => {
       player.setInitialScore(Object.assign({}, this.scoreTemplate));
     });
-    this.isStarted = true;
     this.startNewSet();
   }
-
 }

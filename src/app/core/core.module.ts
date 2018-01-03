@@ -1,16 +1,16 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  MdButtonModule,
-  MdChipsModule,
-  MdFormFieldModule,
-  MdInputModule,
-  MdListModule,
-  MdMenuModule,
-  MdSelectModule,
-  MdSlideToggleModule,
-  MdTabsModule,
-  MdToolbarModule
+  MatButtonModule,
+  MatChipsModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatSelectModule,
+  MatSlideToggleModule,
+  MatTabsModule,
+  MatToolbarModule
 } from '@angular/material';
 
 import { PlayerService } from './player.service';
@@ -20,16 +20,16 @@ import { PlayerService } from './player.service';
   declarations: [],
   exports: [
     CommonModule,
-    MdButtonModule,
-    MdChipsModule,
-    MdFormFieldModule,
-    MdInputModule,
-    MdListModule,
-    MdMenuModule,
-    MdSelectModule,
-    MdSlideToggleModule,
-    MdTabsModule,
-    MdToolbarModule
+    MatButtonModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatTabsModule,
+    MatToolbarModule
   ],
   providers: [ PlayerService ]
 })

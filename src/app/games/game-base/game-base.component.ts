@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MdInputModule } from '@angular/material';
+import { MatInputModule } from '@angular/material';
 
 import { SharedModule } from '../../shared/shared.module';
 import { Player } from '../../core/player.model';

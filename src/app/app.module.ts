@@ -18,9 +18,9 @@ import { CricketGameComponent } from './games/cricket-game/cricket-game.componen
 import { CricketScoreComponent } from './games/cricket-game/cricket-score/cricket-score.component';
 import { PageNotFoundComponent } from './not-found/not-found.component';
 
-const appRoutes: Routes = [
-  {path: 'games/x01', component: X01GameComponent},
-  {path: 'games/cricket', component: CricketGameComponent},
+export const appRoutes: Routes = [
+  { path: 'games/x01', component: X01GameComponent },
+  { path: 'games/cricket', component: CricketGameComponent },
   { path: '',   redirectTo: '/games/x01', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ]

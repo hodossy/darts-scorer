@@ -27,27 +27,21 @@ describe('DartsTableComponent', () => {
 
   it('should fire throw events when sectors are clicked', fakeAsync(() => {
     let multipliers = ['s', 'd', 't'];
-    spyOn(component.throw, 'emit');
-    fixture.nativeElement.querySelector('#s25').click();
-    fixture.nativeElement.querySelector('#d25').click();
-    for(var j in multipliers) {
-      for(var i=1; i<=20; i++) {
-        fixture.nativeElement.querySelector('#'+multipliers[j]+String(i)).click();
+    let thr: Throw;
+    component.throw.subscribe((value) => thr = value);
+    fixture.debugElement.query(By.css('#s25')).triggerEventHandler('click', null);
+    expect(thr.sector).toEqual(25);
+    expect(thr.multiplier).toEqual(1);
+    fixture.debugElement.query(By.css('#d25')).triggerEventHandler('click', null);
+    expect(thr.sector).toEqual(25);
+    expect(thr.multiplier).toEqual(2);
+    for(var j = 0; j < 3; j++) {
+      for(var i = 1; i <= 20; i++) {
+        fixture.debugElement.query(By.css('#' + multipliers[j] + String(i)))
+                            .triggerEventHandler('click', null);
+        expect(thr.sector).toEqual(i);
+        expect(thr.multiplier).toEqual(j + 1);
       }
     }
-
-    fixture.detectChanges();
-    tick();
-    expect(component.throw.emit).toHaveBeenCalledTimes(62);
-  }));
-
-  it('should pass Throws when a sector is clicked', fakeAsync(() => {
-    component.throw.subscribe((t) => {
-      expect(t.sector).toEqual(25);
-      expect(t.multiplier).toEqual(1);
-    });
-    fixture.nativeElement.querySelector('#s25').click();
-    fixture.detectChanges();
-    tick();
   }));
 });

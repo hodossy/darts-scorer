@@ -22,7 +22,9 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              {
+                "input": "src/styles.scss"
+              }
             ],
             "scripts": [
               "node_modules/hammerjs/hammer.min.js"

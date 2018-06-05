@@ -2,8 +2,14 @@
   <div class="col-md-4">
     <mat-list>
       <mat-list-item *ngFor="let player of players; let idx=index" [attr.active]="idx===activeIdx">
-        <mat-chip-list><mat-chip>{{player.name}}</mat-chip></mat-chip-list>
-        <cricket-score [score]="player.score"></cricket-score>
+        <mat-card>
+          <mat-card-header color="primary">
+            <mat-card-title>{{player.name}}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <cricket-score [score]="player.score"></cricket-score>
+          </mat-card-content>
+        </mat-card>
       </mat-list-item>
     </mat-list>
   </div>
@@ -14,8 +20,8 @@
   <div class="col-md-1"></div>
 </div>
 <div *ngIf="!isStarted" class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
     <mat-tab-group dynamicHeight="true">
       <mat-tab label="Add players">
         <player-extendable-list></player-extendable-list>
@@ -25,5 +31,5 @@
     </mat-tab-group>
     <button mat-raised-button type="button" color="primary" (click)="onStart()">Start</button>
   </div>
-  <div class="col-md-2"></div>
+  <div class="col-md-4"></div>
 </div>

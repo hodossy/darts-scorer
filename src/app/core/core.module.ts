@@ -2,6 +2,7 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   MatButtonModule,
+  MatCardModule,
   MatChipsModule,
   MatFormFieldModule,
   MatInputModule,
@@ -21,6 +22,7 @@ import { PlayerService } from './player.service';
   exports: [
     CommonModule,
     MatButtonModule,
+    MatCardModule,
     MatChipsModule,
     MatFormFieldModule,
     MatInputModule,

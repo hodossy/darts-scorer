@@ -1,0 +1,18 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+// Custom themes
+@import 'themes/default-theme.scss';
+
+// Custom compenent themes
+@import 'app/player-extendable-list/_player-extendable-list-theme.scss';
+
+@mixin custom-components-theme($theme) {
+  @include player-extendable-list-component-theme($theme);
+}
+
+.default-theme {
+  @include angular-material-theme($ds-theme);
+  @include custom-components-theme($ds-theme);
+}

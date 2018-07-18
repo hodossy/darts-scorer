@@ -1,0 +1,5 @@
+$ds-primary: mat-palette($mat-deep-purple, 800, 300, 900);
+$ds-accent: mat-palette($mat-amber);
+$ds-warn: mat-palette($mat-pink, 600);
+
+$ds-theme: mat-light-theme($ds-primary, $ds-accent, $ds-warn);

@@ -1,6 +1,6 @@
 <mat-list>
   <mat-list-item *ngFor="let player of players; let idx=index">
-    {{player.name}}<span role="button" class="glyphicon glyphicon-remove pull-right" (click)="removePlayer(idx)"></span>
+    <span role="button" class="glyphicon glyphicon-remove pull-right" (click)="removePlayer(idx)"></span>{{player.name}}
 </mat-list-item>
 </mat-list>
 <div class="input-group">

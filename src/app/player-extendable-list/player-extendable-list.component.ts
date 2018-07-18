@@ -8,7 +8,7 @@ import { PlayerService } from '../core/player.service';
 @Component({
   selector: 'player-extendable-list',
   templateUrl: './player-extendable-list.component.html',
-  styleUrls: ['./player-extendable-list.component.css']
+  styleUrls: ['./player-extendable-list.component.scss']
 })
 export class PlayerExtendableListComponent implements OnInit {
   @Input() players: Player[];

@@ -1,27 +1,34 @@
-<div *ngIf="isStarted" class="row">
+<div id="game-play" *ngIf="game.isStarted" class="row">
   <div class="col-md-4">
-    <mat-list>
-      <mat-list-item *ngFor="let player of players; let idx=index" [attr.active]="idx===activeIdx">
+    <mat-list id="player-scores">
+      <mat-list-item *ngFor="let player of game.players; let idx=index" [attr.active]="idx===game.activeIdx">
         <mat-chip-list><mat-chip>{{player.name}}</mat-chip></mat-chip-list>
-        <ng-container *ngComponentOutlet="scoreComponent"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="scoreTemplate ? scoreTemplate: defaultScore; context: {$implicit: player.score}">
+        </ng-container>
       </mat-list-item>
     </mat-list>
   </div>
   <div class="col-md-1"></div>
   <div class="col-md-6 center-block">
-    <darts-table (throw)="onThrow($event)"></darts-table>
+    <darts-table (throw)="game.onThrow($event)"></darts-table>
   </div>
   <div class="col-md-1"></div>
 </div>
-<div *ngIf="!isStarted" class="row">
+<div id="game-init" *ngIf="!game.isStarted" class="row">
   <div class="col-md-2"></div>
   <mat-tab-group class="col-md-8" dynamicHeight="true">
-    <mat-tab label="Add players">
+    <mat-tab id="player-list" label="Add players">
       <player-extendable-list></player-extendable-list>
     </mat-tab>
-    <mat-tab label="Set game parameters">
-      <ng-container *ngComponentOutlet="settingsComponent"></ng-container>
+    <mat-tab id="game-settings" *ngIf="game.settings" label="Set game parameters">
+      <ng-container
+        *ngTemplateOutlet="settingsTemplate ? settingsTemplate : defaultSettings; context: {$implicit: game.settings}">
+      </ng-container>
     </mat-tab>
   </mat-tab-group>
   <div class="col-md-2"></div>
 </div>
+
+<ng-template #defaultScore let-score><span>{{score | json}}</span></ng-template>
+<ng-template #defaultSettings let-settings><span>{{settings | json}}</span></ng-template>

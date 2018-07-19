@@ -29,7 +29,10 @@
         </ng-container>
       </mat-tab>
     </mat-tab-group>
-    <button mat-raised-button type="button" color="primary" (click)="game.onStart()">Start</button>
+    <div *ngIf="noPlayer" class="alert alert-danger" role="alert">
+      <span id="error-msg">Please add at least one player!</span>
+    </div>
+    <button mat-raised-button type="button" color="primary" (click)="onStart()">Start</button>
   </div>
   <div class="col-md-4"></div>
 </div>

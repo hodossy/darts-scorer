@@ -1,17 +1,21 @@
-<form>
-  <mat-slide-toggle [(ngModel)]="settings.isDoubleOut" name="is-double-out"
-    class="full-width" style="padding 1em">
-    Double required to win?
-  </mat-slide-toggle>
-  <mat-select [(ngModel)]="settings.initialScore" placeholder="Select score" name="initial-score" class="full-width">
-    <mat-option *ngFor="let score of scoreOptions" [value]="score.value">
-      {{score.viewValue}}
-    </mat-option>
-  </mat-select>
-  <mat-form-field class="full-width">
+<form class="container">
+  <mat-form-field appearance="standard">
+    <mat-label>Score</mat-label>
+    <mat-select [(ngModel)]="settings.initialScore" placeholder="Select score" name="initial-score">
+      <mat-option *ngFor="let score of scoreOptions" [value]="score.value">
+        {{score.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <mat-label>Legs to win</mat-label>
     <input matInput type="number" name="legs-to-win" [(ngModel)]="settings.legsToWin" placeholder="Number of legs to win">
   </mat-form-field>
-  <mat-form-field class="full-width">
+  <mat-form-field appearance="standard">
+    <mat-label>Sets to win</mat-label>
     <input matInput type="number" name="sets-to-win" [(ngModel)]="settings.setsToWin" placeholder="Number of sets to win">
   </mat-form-field>
+  <mat-slide-toggle [(ngModel)]="settings.isDoubleOut" name="is-double-out">
+    Double required to win?
+  </mat-slide-toggle>
 </form>

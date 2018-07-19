@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '../../core/core.module';
 import { SharedModule } from '../../shared/shared.module';
 
+import { GameBaseComponent } from '../game-base/game-base.component';
 import { X01GameComponent } from './x01-game.component';
 import { X01ScoreComponent } from './x01-score/x01-score.component';
 import { X01SettingsComponent } from './x01-settings/x01-settings.component';
@@ -18,6 +19,7 @@ describe('X01GameComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        GameBaseComponent,
         X01GameComponent,
         X01ScoreComponent,
         X01SettingsComponent,

@@ -51,11 +51,8 @@ describe('GameBaseComponent', () => {
   });
 
   it('should display the player list in the init view', () => {
-    expect(el.query(By.css('#player-list'))).toBeTruthy();
-  });
-
-  it('should display the settings in the init view', () => {
-    expect(el.query(By.css('#game-settings'))).toBeTruthy();
+    let tabLabels = el.query(By.css('.mat-tab-label-content')).nativeElement.innerHTML;
+    expect(tabLabels).toContain('Add players');
   });
 
   it('should display the play view when the game is started', () => {

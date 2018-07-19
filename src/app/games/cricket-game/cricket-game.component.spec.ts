@@ -7,6 +7,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { DartsTableComponent } from '../../darts-table/darts-table.component';
 import { PlayerExtendableListComponent } from '../../player-extendable-list/player-extendable-list.component';
 
+import { GameBaseComponent } from '../game-base/game-base.component';
 import { CricketGameComponent } from './cricket-game.component';
 import { CricketScoreComponent } from './cricket-score/cricket-score.component';
 
@@ -18,6 +19,7 @@ describe('CricketGameComponent', () => {
     TestBed.configureTestingModule({
       imports: [ BrowserAnimationsModule, CoreModule, SharedModule ],
       declarations: [
+        GameBaseComponent,
         CricketGameComponent,
         CricketScoreComponent,
         DartsTableComponent,

@@ -43,6 +43,7 @@ export function initGapi(gapiSession: GoogleService) {
     CricketGameComponent,
     CricketScoreComponent,
     PageNotFoundComponent,
+    SigninComponent,
   ],
   imports: [
     BrowserModule,

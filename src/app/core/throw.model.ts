@@ -4,4 +4,8 @@ export class Throw {
   get value() {
     return this.sector * this.multiplier;
   }
+
+  toJSON() {
+    return {'sector': this.sector, 'multiplier': this.multiplier}
+  }
 }

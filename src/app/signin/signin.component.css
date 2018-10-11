@@ -1,0 +1,9 @@
+img {
+  border-radius: 50%;
+  height: 32px;
+}
+
+span {
+  font-size: 14px;
+  padding: 0 1em 0 1em;
+}

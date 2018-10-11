@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PlayerService } from '../core/player.service';
 import { GoogleService } from '../social/google.service';
 
@@ -9,7 +10,7 @@ import { GoogleService } from '../social/google.service';
 })
 export class SigninComponent implements OnInit {
 
-  constructor(private playerService: PlayerService, private authService: GoogleService) { }
+  constructor(private authService: GoogleService) { }
 
   ngOnInit() {
   }

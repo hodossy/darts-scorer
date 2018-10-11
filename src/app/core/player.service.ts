@@ -5,7 +5,6 @@ import { Player } from './player.model';
 @Injectable()
 export class PlayerService {
   private storageKey: string = 'knownPlayers';
-  private storageOwner: gapi.auth2.BasicProfile;
   private _players: Player[];
   private cachedPlayers: Player[];
 
@@ -55,9 +54,5 @@ export class PlayerService {
     } else {
       this.cachedPlayers = new Array<Player>();
     }
-  }
-
-  setOwner(owner: gapi.auth2.BasicProfile) {
-    this.storageOwner = owner;
   }
 }

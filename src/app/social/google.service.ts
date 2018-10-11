@@ -12,6 +12,9 @@ var SCOPES = 'https://www.googleapis.com/auth/drive.appdata';
 })
 export class GoogleService {
   private googleAuth: gapi.auth2.GoogleAuth;
+  private userProfile: gapi.auth2.BasicProfile;
+  private AuthResponse: gapi.auth2.AuthResponse;
+  public disabled: boolean;
 
   constructor(private playerService: PlayerService) { }
 
@@ -25,7 +28,15 @@ export class GoogleService {
           scope: SCOPES,
         }).then(() => {
           this.googleAuth = gapi.auth2.getAuthInstance();
+          if(this.googleAuth.currentUser) {
+            this.userProfile = this.googleAuth.currentUser.get().getBasicProfile();
+            this.AuthResponse = this.googleAuth.currentUser.get().getAuthResponse();
+          }
           resolve();
+        }).catch((err) => {
+          this.disabled = true;
+          console.log("GoogleAuth has been disabled.");
+          console.debug(err);
         });
       });
     });
@@ -39,11 +50,20 @@ export class GoogleService {
     return this.googleAuth.signIn({
       prompt: 'consent'
     }).then((googleUser: gapi.auth2.GoogleUser) => {
-      this.playerService.setOwner(googleUser.getBasicProfile());
+      this.userProfile = googleUser.getBasicProfile();
+      this.AuthResponse = googleUser.getAuthResponse();
     });
   }
 
   signOut(): void {
     this.googleAuth.signOut();
+  }
+
+  getDisplayName() {
+    return this.userProfile.getGivenName();
+  }
+
+  getImgUrl() {
+    return this.userProfile.getImageUrl();
   }
 }

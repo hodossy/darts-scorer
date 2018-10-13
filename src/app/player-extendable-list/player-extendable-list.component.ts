@@ -38,7 +38,9 @@ export class PlayerExtendableListComponent implements OnInit {
   }
 
   addCachedPlayer(player: Player) {
-    this.playerService.addPlayer(player);
+    if(!player.isIn(this.players)) {
+      this.playerService.addPlayer(player);
+    }
   }
 
   // removeCachedPlayer

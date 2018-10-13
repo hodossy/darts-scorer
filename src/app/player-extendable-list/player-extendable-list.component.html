@@ -13,10 +13,11 @@
 <div *ngIf="hasError" class="alert alert-danger" role="alert">
   <span id="error-msg">{{newPlayerName}} already added!</span>
 </div>
+<p>Suggested players:</p>
 <mat-chip-list>
-  <mat-chip *ngFor="let cachedPlayer of cachedPlayers"
-    (click)="addCachedPlayer(cachedPlayer)"
-    selected="{{cachedPlayer.isIn(players)}}">
-    {{cachedPlayer.name}}
-  </mat-chip>
+  <ng-container *ngFor="let cachedPlayer of cachedPlayers">
+    <mat-chip *ngIf="!cachedPlayer.isIn(players)" (click)="addCachedPlayer(cachedPlayer)">
+      {{cachedPlayer.name}}
+    </mat-chip>
+  </ng-container>
 </mat-chip-list>

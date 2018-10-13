@@ -25,16 +25,15 @@ export class PlayerExtendableListComponent implements OnInit {
   }
 
   addPlayer() {
-    if(!this.newPlayerName || '' == this.newPlayerName ) return;
-    for(let idx = 0; idx < this.players.length; idx++) {
-      if(this.newPlayerName == this.players[idx].name) {
-        this.hasError = true;
-        return;
-      }
-    }
-    this.playerService.addPlayer(new Player(this.newPlayerName));
-    this.newPlayerName = null;
     this.hasError = false;
+    if(!this.newPlayerName || '' == this.newPlayerName ) return;
+    let newPlayer = new Player(this.newPlayerName)
+    if(!newPlayer.isIn(this.players)){
+      this.playerService.addPlayer(newPlayer);
+      this.newPlayerName = null;
+    } else {
+      this.hasError = true;
+    }
   }
 
   addCachedPlayer(player: Player) {

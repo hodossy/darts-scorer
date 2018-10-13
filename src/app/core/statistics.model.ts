@@ -16,15 +16,17 @@ export class PlayerStatistics {
   //     return curr.value > prev.value ? curr : prev;
   //   });
   // }
-  //
+
   // get oneDartAverage(): number {
-  //   return this.throws.reduce((prev: number, curr: Throw) => {
-  //     return prev + curr.value;
+  //   return this.throws.map((curr: Throw) => {
+  //     return curr.value;
+  //   }).reduce((prev: number, curr: number) => {
+  //     return prev + curr;
   //   }) / this.throws.length;
   // }
 
   toJSON() {
-    return {'stats': this.throws};
+    return {stats: this.throws};
   }
 
 }

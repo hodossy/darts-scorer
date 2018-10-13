@@ -15,7 +15,7 @@ describe('Model: PlayerStatistics', () => {
   it('should log throws', () => {
     let t = new Throw(20, 2);
     ps.logThrow(t);
-    expect(ps.toJSON()).toEqual({'stats': [t]});
+    expect(ps.toJSON()).toEqual({stats: [t]});
   });
 
 });

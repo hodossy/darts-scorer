@@ -1,7 +1,7 @@
 <mat-list>
   <mat-list-item *ngFor="let player of players; let idx=index">
     <span role="button" class="glyphicon glyphicon-remove pull-right" (click)="removePlayer(idx)"></span>{{player.name}}
-</mat-list-item>
+  </mat-list-item>
 </mat-list>
 <div class="input-group">
   <input type="text" class="form-control" [(ngModel)]="newPlayerName"
@@ -13,3 +13,10 @@
 <div *ngIf="hasError" class="alert alert-danger" role="alert">
   <span id="error-msg">{{newPlayerName}} already added!</span>
 </div>
+<mat-chip-list>
+  <mat-chip *ngFor="let cachedPlayer of cachedPlayers"
+    (click)="addCachedPlayer(cachedPlayer)"
+    selected="{{cachedPlayer.isIn(players)}}">
+    {{cachedPlayer.name}}
+  </mat-chip>
+</mat-chip-list>

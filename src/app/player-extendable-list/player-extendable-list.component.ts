@@ -12,6 +12,7 @@ import { PlayerService } from '../core/player.service';
 })
 export class PlayerExtendableListComponent implements OnInit {
   @Input() players: Player[];
+  cachedPlayers: Player[];
   hasError: boolean;
   @Input() newPlayerName: string;
 
@@ -19,6 +20,7 @@ export class PlayerExtendableListComponent implements OnInit {
 
   ngOnInit() {
     this.players = this.playerService.players;
+    this.cachedPlayers = this.playerService.getCachedPlayers();
     this.newPlayerName = null;
   }
 
@@ -30,14 +32,18 @@ export class PlayerExtendableListComponent implements OnInit {
         return;
       }
     }
-    // this.players.push(new Player(this.newPlayerName));
     this.playerService.addPlayer(new Player(this.newPlayerName));
     this.newPlayerName = null;
     this.hasError = false;
   }
 
+  addCachedPlayer(player: Player) {
+    this.playerService.addPlayer(player);
+  }
+
+  // removeCachedPlayer
+
   removePlayer(idx: number) {
-    // this.players.splice(idx, 1);
     this.playerService.deletePlayer(idx);
   }
 }

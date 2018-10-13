@@ -1,9 +1,15 @@
 @import '~@angular/material/theming';
 
 @mixin player-extendable-list-component-theme($theme) {
+  $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
 
   .glyphicon-remove:hover {
-    color: mat-color($accent)
+    color: mat-color($accent);
+  }
+
+  .mat-chip:hover {
+    background-color: mat-color($primary);
+    color: mat-color($primary, default-contrast);
   }
 }

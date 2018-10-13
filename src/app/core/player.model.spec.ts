@@ -23,7 +23,7 @@ describe('Model: Player', () => {
   });
 
   it('should not serialize scores', () => {
-    expect(JSON.stringify(p)).toEqual('{"name":"' + p.name + '"}');
+    expect(JSON.stringify(p)).toEqual('{"name":"' + p.name + ', "history": []"}');
   });
 
   it('should be equal with a Player with the same name', () => {
@@ -34,5 +34,15 @@ describe('Model: Player', () => {
   it('should not be equal with a Player with different name', () => {
     let otherPlayer = new Player('Jane Doe');
     expect(p.equals(otherPlayer)).toBeFalsy();
+  });
+
+  it('should identify itself in a list of players when present', () => {
+    let others = [new Player('Jane Doe'), new Player('John Doe'), new Player('Some other guy')];
+    expect(p.isIn(others)).toBeTruthy();
+  });
+
+  it('should not identify itself in a list of players when not present', () => {
+    let others = [new Player('Jane Doe'), new Player('Some other guy')];
+    expect(p.isIn(others)).toBeFalsy();
   });
 });

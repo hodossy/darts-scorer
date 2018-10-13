@@ -33,7 +33,7 @@ export class PlayerService {
     return this.cachedPlayers;
   }
 
-  storePlayers() {
+  private updateCachedPlayers() {
     // TODO: update existing keys and add new one before storing
     for(let i = 0; i < this.players.length; i++) {
       let found = false;
@@ -44,6 +44,10 @@ export class PlayerService {
       }
       if (!found) this.cachedPlayers.push(this.players[i]);
     }
+  }
+
+  storePlayers() {
+    this.updateCachedPlayers();
     localStorage.setItem(this.storageKey, JSON.stringify(this.cachedPlayers));
   }
 

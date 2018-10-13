@@ -8,11 +8,16 @@ import { Throw } from '../../core/throw.model';
   providedIn: 'root'
 })
 export class GameBaseService {
-  public activePlayerIdx: number = -1;
-  public throwsLeft: number = 3;
-  public isStarted: boolean = false;
+  private readonly INITIAL_THROWS_LEFT = 3;
+  private readonly INITIAL_ACTIVE_PLAYER_IDX = -1;
 
-  constructor(public playerService: PlayerService) { }
+  public activePlayerIdx: number;
+  public throwsLeft: number;
+  public isStarted: boolean;
+
+  constructor(public playerService: PlayerService) {
+    this.reset();
+  }
 
   get players() {
     return this.playerService.players;
@@ -28,18 +33,29 @@ export class GameBaseService {
 
   onThrow(score: Throw) {
     this.throwsLeft--;
+    this.activePlayer.history.logThrow(score);
     this.handleScore(score);
     if(!this.checkWin()) {
       if(0 == this.throwsLeft) {
         this.throwsLeft = 3;
         this.setNextPlayer(++this.activePlayerIdx);
       }
+    } else {
+      this.playerService.storePlayers();
+      this.reset();
     }
   }
 
   onStart() {
+    this.playerService.storePlayers();
     this.handleStart();
     this.isStarted = true;
+  }
+
+  reset() {
+    this.activePlayerIdx = this.INITIAL_ACTIVE_PLAYER_IDX;
+    this.throwsLeft = this.INITIAL_THROWS_LEFT;
+    this.isStarted = false;
   }
 
   checkWin() {

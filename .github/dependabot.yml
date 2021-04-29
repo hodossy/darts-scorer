@@ -1,0 +1,16 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: "@angular/language-service"
+    versions:
+    - 11.0.5
+    - 11.1.1
+  - dependency-name: "@types/gapi.auth2"
+    versions:
+    - 0.0.52
